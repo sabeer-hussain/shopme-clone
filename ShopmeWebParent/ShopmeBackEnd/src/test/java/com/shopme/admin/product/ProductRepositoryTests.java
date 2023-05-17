@@ -30,8 +30,8 @@ public class ProductRepositoryTests {
 	
 	@Test
 	public void testCreateProduct() {
-		Brand brand = entityManager.find(Brand.class, 37);
-		Category category = entityManager.find(Category.class, 5);
+		Brand brand = entityManager.find(Brand.class, 10);
+		Category category = entityManager.find(Category.class, 15);
 		
 		Product product = new Product();
 		product.setName("Acer Aspire Desktop");
@@ -49,6 +49,7 @@ public class ProductRepositoryTests {
 		
 		product.setCreatedTime(new Date());
 		product.setUpdatedTime(new Date());
+		product.setMainImage("41");
 		
 		Product savedProduct = repo.save(product);
 		
