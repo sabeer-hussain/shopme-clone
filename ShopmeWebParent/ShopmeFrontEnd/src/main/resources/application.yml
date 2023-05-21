@@ -1,10 +1,10 @@
 server:
-  port: 80
+  port: 9097
   servlet:
     context-path: /Shopme
 spring:
   datasource:
-    password: Fatih260522@
+    password: User@1
     url: jdbc:mysql://localhost:3306/shopmedb
     username: root    #hikari:      #minimum-idle: 1
       #maximum-pool-size: 2

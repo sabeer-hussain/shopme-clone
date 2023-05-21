@@ -33,9 +33,18 @@ public class MvcConfig implements WebMvcConfigurer {
 //			.addResourceLocations("file:/" + absolutePath + "/");		
 //	}
 
+//	@Override
+//	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+//		resolvers.add(new PagingAndSortingArgumentResolver());
+//	}
 	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(new PagingAndSortingArgumentResolver());
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//		String dirName = "src/main/resources/static/images/Users-Image";
+		String dirName = "user-photos";
+		Path userPhotoDir = Paths.get(dirName);
+		String userphotoPath = userPhotoDir.toFile().getAbsolutePath();
+		registry.addResourceHandler("/" + dirName + "/**")
+		.addResourceLocations("file:/"+ userphotoPath + "/");
 	}
 
 }
