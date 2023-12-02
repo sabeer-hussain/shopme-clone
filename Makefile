@@ -1,7 +1,7 @@
 .PHONY: all
 all: kernel
 
-kernel: kernel.elf
+kernel: kernel.elf 
 kernel.elf: src/kernel/main.cpp
 	clang++ ${CPPFLAGS} \
 		-O2 -Wall -g --target=x86_64-elf \
