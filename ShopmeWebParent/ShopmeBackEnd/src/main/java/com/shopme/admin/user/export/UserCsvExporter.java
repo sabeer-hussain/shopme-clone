@@ -3,7 +3,7 @@ package com.shopme.admin.user.export;
 import java.io.IOException;
 import java.util.List;
 
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;

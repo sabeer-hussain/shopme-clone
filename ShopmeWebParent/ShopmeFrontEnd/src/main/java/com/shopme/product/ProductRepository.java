@@ -5,10 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.CrudRepository;
+
 import com.shopme.common.entity.product.Product;
 
-public interface ProductRepository extends CrudRepository<Product, Integer> , PagingAndSortingRepository<Product, Integer> {
+public interface ProductRepository extends PagingAndSortingRepository<Product, Integer> {
 
 	@Query("SELECT p FROM Product p WHERE p.enabled = true "
 			+ "AND (p.category.id = ?1 OR p.category.allParentIDs LIKE %?2%)"

@@ -3,28 +3,30 @@ package com.shopme.admin.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class WebSecurityConfig{
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
-    UserDetailsService userDetailsService() {
+	public UserDetailsService userDetailsService() {
 		return new ShopmeUserDetailsService();
 	}
 	
 	@Bean
-	PasswordEncoder passwordEncoder() {
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean
-	DaoAuthenticationProvider authenticationProvider() {
+	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(userDetailsService());
 		authProvider.setPasswordEncoder(passwordEncoder());
@@ -32,58 +34,57 @@ public class WebSecurityConfig{
 		return authProvider;
 	}
 	
-	
-	@Bean
-	SecurityFilterChain configureHttpSecurity(HttpSecurity http) throws Exception {
-		http.authenticationProvider(authenticationProvider());
-		http.authorizeHttpRequests( auth -> auth
-			.requestMatchers("/states/list_by_country/**").hasAnyAuthority("Admin", "Salesperson")
-			.requestMatchers("/users/**", "/settings/**", "/countries/**", "/states/**").hasAuthority("Admin")
-			.requestMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin", "Editor")
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(authenticationProvider());
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+			.antMatchers("/states/list_by_country/**").hasAnyAuthority("Admin", "Salesperson")
+			.antMatchers("/users/**", "/settings/**", "/countries/**", "/states/**").hasAuthority("Admin")
+			.antMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin", "Editor")
 			
-			.requestMatchers("/products/new", "/products/delete/**").hasAnyAuthority("Admin", "Editor")
+			.antMatchers("/products/new", "/products/delete/**").hasAnyAuthority("Admin", "Editor")
 			
-			.requestMatchers("/products/edit/**", "/products/save", "/products/check_unique")
+			.antMatchers("/products/edit/**", "/products/save", "/products/check_unique")
 				.hasAnyAuthority("Admin", "Editor", "Salesperson")
 				
-			.requestMatchers("/products", "/products/", "/products/detail/**", "/products/page/**")
+			.antMatchers("/products", "/products/", "/products/detail/**", "/products/page/**")
 				.hasAnyAuthority("Admin", "Editor", "Salesperson", "Shipper")
 				
-			.requestMatchers("/products/**").hasAnyAuthority("Admin", "Editor")
+			.antMatchers("/products/**").hasAnyAuthority("Admin", "Editor")
 			
-			.requestMatchers("/orders", "/orders/", "/orders/page/**", "/orders/detail/**").hasAnyAuthority("Admin", "Salesperson", "Shipper")
+			.antMatchers("/orders", "/orders/", "/orders/page/**", "/orders/detail/**").hasAnyAuthority("Admin", "Salesperson", "Shipper")
 			
-			.requestMatchers("/products/detail/**", "/customers/detail/**").hasAnyAuthority("Admin", "Editor", "Salesperson", "Assistant")
+			.antMatchers("/products/detail/**", "/customers/detail/**").hasAnyAuthority("Admin", "Editor", "Salesperson", "Assistant")
 
-			.requestMatchers("/customers/**", "/orders/**", "/get_shipping_cost", "/reports/**").hasAnyAuthority("Admin", "Salesperson")
+			.antMatchers("/customers/**", "/orders/**", "/get_shipping_cost", "/reports/**").hasAnyAuthority("Admin", "Salesperson")
 			
-			.requestMatchers("/orders_shipper/update/**").hasAuthority("Shipper")
+			.antMatchers("/orders_shipper/update/**").hasAuthority("Shipper")
 			
-			.requestMatchers("/reviews/**").hasAnyAuthority("Admin", "Assistant")
+			.antMatchers("/reviews/**").hasAnyAuthority("Admin", "Assistant")
 			
 			.anyRequest().authenticated()
-			)
-			.formLogin(form -> form			
+			.and()
+			.formLogin()			
 				.loginPage("/login")
 				.usernameParameter("email")
 				.permitAll()
-				)
-			.logout(logout -> logout.permitAll())
-	        .rememberMe(rem -> rem
+			.and().logout().permitAll()
+			.and()
+				.rememberMe()
 					.key("AbcDefgHijKlmnOpqrs_1234567890")
-					.tokenValiditySeconds(7 * 24 * 60 * 60)
-					);
-			http.headers(headers -> headers.frameOptions(f -> f.sameOrigin()));
-			
-			return http.build();
+					.tokenValiditySeconds(7 * 24 * 60 * 60);
+					;
+			http.headers().frameOptions().sameOrigin();
 	}
 
-	@Bean
-	WebSecurityCustomizer configure() throws Exception {
-		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**");
 	}
-	
-	
 
 	
 }

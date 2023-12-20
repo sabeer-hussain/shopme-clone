@@ -7,14 +7,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.shopme.common.Constants;
 import com.shopme.common.entity.Brand;
@@ -325,7 +325,7 @@ public class Product extends IdBasedEntity {
 	
 	@Transient
 	public String getURI() {
-		return "/p/" + this.alias;
+		return "/p/" + this.alias + "/";
 	}
 
 	public boolean isCustomerCanReview() {

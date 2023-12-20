@@ -1,9 +1,9 @@
 package com.shopme.common.entity.order;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.IdBasedEntity;

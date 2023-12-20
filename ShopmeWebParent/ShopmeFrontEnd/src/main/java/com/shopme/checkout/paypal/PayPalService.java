@@ -31,7 +31,7 @@ public class PayPalService {
 	private PayPalOrderResponse getOrderDetails(String orderId) throws PayPalApiException {
 		ResponseEntity<PayPalOrderResponse> response = makeRequest(orderId);
 		
-		HttpStatus statusCode = (HttpStatus) response.getStatusCode();
+		HttpStatus statusCode = response.getStatusCode();
 		
 		if (!statusCode.equals(HttpStatus.OK)) {
 			throwExceptionForNonOKResponse(statusCode);

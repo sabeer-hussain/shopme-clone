@@ -3,7 +3,7 @@ package com.shopme.review.vote;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
