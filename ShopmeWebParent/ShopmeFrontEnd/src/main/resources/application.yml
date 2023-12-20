@@ -3,8 +3,10 @@ server:
   servlet:
     context-path: /Shopme
 spring:
+  main:
+    allow-circular-references: true
   datasource:
-    password: password
+    password: merlin
     url: jdbc:mysql://localhost:3306/shopmedb
     username: root    #hikari:      #minimum-idle: 1
       #maximum-pool-size: 2
@@ -13,7 +15,7 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+#        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
     show-sql: false
     

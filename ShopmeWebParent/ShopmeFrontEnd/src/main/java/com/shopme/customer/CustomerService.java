@@ -3,8 +3,9 @@ package com.shopme.customer;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,6 @@ import com.shopme.common.entity.Customer;
 import com.shopme.common.exception.CustomerNotFoundException;
 import com.shopme.setting.CountryRepository;
 
-import net.bytebuddy.utility.RandomString;
 
 @Service
 @Transactional
@@ -40,7 +40,7 @@ public class CustomerService {
 		customer.setCreatedTime(new Date());
 		customer.setAuthenticationType(AuthenticationType.DATABASE);
 		
-		String randomCode = RandomString.make(64);
+		String randomCode = RandomStringUtils.random(64, true, true);
 		customer.setVerificationCode(randomCode);
 		
 		customerRepo.save(customer);
@@ -133,7 +133,7 @@ public class CustomerService {
 	public String updateResetPasswordToken(String email) throws CustomerNotFoundException {
 		Customer customer = customerRepo.findByEmail(email);
 		if (customer != null) {
-			String token = RandomString.make(30);
+			String token  = RandomStringUtils.random(30, true, true);
 			customer.setResetPasswordToken(token);
 			customerRepo.save(customer);
 			
