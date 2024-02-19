@@ -73,8 +73,53 @@
 				</nav>
 				
 			</div>
-    		<h1> Shopme Admin Control Panel</h1>
+    		<h1>Manage Users</h1>
     	</div>
+     
+     
+     <div>
+		 <table class="table table-responsive-xl">
+			 <thread class="thread-dark">
+				 <tr>
+					 <th> User ID
+					 </th>					  
+				
+					 <th> Photos
+					 </th>					  
+				
+					 <th> First name
+					  </th>	
+					 <th> Last name
+					 </th>					  
+				 
+					 <th> Roles
+					  </th>	
+					 <th> Enabled
+					 </th>	
+					 <th> User Id
+					 </th>	
+					 
+					 <th> 
+					 </th>						  
+				 </tr>
+				 
+				 
+			 </thread>
+			 <tbody>
+				 <tr th:each="user : ${listUsers}">
+					 
+					 <td> [[${user.id}]]</td>
+					 
+				 </tr>
+				 
+				 
+			 </tbody>
+			 
+		 </table>
+		 
+		 
+	 </div>
+     
      
      
     	<div> 

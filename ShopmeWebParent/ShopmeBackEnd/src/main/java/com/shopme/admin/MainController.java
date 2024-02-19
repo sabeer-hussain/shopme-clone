@@ -1,3 +1,4 @@
+
 package com.shopme.admin;
 
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,6 @@ public class MainController {
 
 	@GetMapping("")
 	public String viewHomePage() {
-		return "index";
+		return "index.html";
 	}
 }
