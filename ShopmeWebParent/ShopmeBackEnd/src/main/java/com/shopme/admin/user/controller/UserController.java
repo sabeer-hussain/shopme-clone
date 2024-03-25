@@ -46,7 +46,7 @@ public class UserController {
 		return "users/users";		
 	}
 	
-	
+	//MOSTRAR USUARIOS
 	@GetMapping("/users/new")
 	public String newUser(Model model) {
 		List<Role> listRoles = service.listRoles();
@@ -61,6 +61,7 @@ public class UserController {
 		return "users/user_form";
 	}
 	
+	//CREAR UN USUARIO
 	@PostMapping("/users/save")
 	public String saveUser(User user, RedirectAttributes redirectAttributes,
 			@RequestParam("image") MultipartFile multipartFile) throws IOException {
@@ -90,6 +91,7 @@ public class UserController {
 		return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;
 	}
 	
+	//ACTUALIZAR UN USUARIO
 	@GetMapping("/users/edit/{id}")
 	public String editUser(@PathVariable(name = "id") Integer id, 
 			Model model,
@@ -109,6 +111,7 @@ public class UserController {
 		}
 	}
 	
+	//ELIMINAR USUARIO
 	@GetMapping("/users/delete/{id}")
 	public String deleteUser(@PathVariable(name = "id") Integer id, 
 			Model model,
@@ -127,6 +130,7 @@ public class UserController {
 		return defaultRedirectURL;
 	}
 	
+	//ESTATUS DEL USUARIO
 	@GetMapping("/users/{id}/enabled/{status}")
 	public String updateUserEnabledStatus(@PathVariable("id") Integer id,
 			@PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) {
@@ -138,6 +142,7 @@ public class UserController {
 		return defaultRedirectURL;
 	}
 	
+	//TIPOS DE EXPORTACION, CSV, EXCEL Y PDF
 	@GetMapping("/users/export/csv")
 	public void exportToCSV(HttpServletResponse response) throws IOException {
 		List<User> listUsers = service.listAll();
